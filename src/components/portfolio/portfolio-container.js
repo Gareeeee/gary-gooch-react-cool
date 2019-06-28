@@ -10,9 +10,9 @@ export default class PortfolioContainer extends Component {
             pageTitle: "Welcome to my portfolio",
             isLoading: false,
             data: [
-                {title: "PC 360", category: "I.T."}, 
-                {title: "Advantage Drywall and Acoustics", category: "Drywall"}, 
-                {title: "SS Auto Brokers", category: "Cars"},
+                {title: "PC 360", category: "I.T.", slug: "PC360"}, 
+                {title: "Advantage Drywall and Acoustics", category: "Drywall", slug:"AdDaA"}, 
+                {title: "SS Auto Brokers", category: "Cars", slug:"SSAutoBrokers"},
                 ],
 
         };
@@ -29,7 +29,7 @@ export default class PortfolioContainer extends Component {
 
     PortfolioItems(){
         return this.state.data.map(item => {
-            return <PortfolioItem title={item.title} url={"google.com"}/>;
+            return <PortfolioItem title={item.title} url={"google.com"} slug={item.slug}/>;
         });
     }
     
