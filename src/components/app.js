@@ -23,19 +23,22 @@ export default class App extends Component {
       <Router>
         <div>
         <NavigationContainer/>
+        <h1>DevCamp React Starter</h1>
         
+        <div>{moment().format("MMMM Do YYYY, h:mm:ss a")}</div>
         <Switch>
      
            <Route exact path='/' Component component={Home} />
-           <Route path="/about" component={About} />
+           <Route path="/about-me" component={About} />
+           <Route path="/Contact" component={Contact} />
+           <Route path="/Blog" component={Blog} />
+           <Route path="/portfolio/:slug" component={PortfolioDetail}/>
         </Switch>
         </div>
       </Router>
 
-        <h1>DevCamp React Starter</h1>
+       
         
-        <div>{moment().format("MMMM Do YYYY, h:mm:ss a")}</div>
-        <PortfolioContainer />
       </div>
     );
   }
