@@ -1,59 +1,78 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import axios from "axios";
 
 import PortfolioItem from "./portfolio-item";
 
 export default class PortfolioContainer extends Component {
-    constructor(){
-        super();
+  constructor() {
+    super();
 
-        this.state ={
-            pageTitle: "Welcome to my portfolio",
-            isLoading: false,
-            data: [
-                {title: "PC 360", category: "I.T.", slug: "PC360"}, 
-                {title: "Advantage Drywall and Acoustics", category: "Drywall", slug:"AdDaA"}, 
-                {title: "SS Auto Brokers", category: "Cars", slug:"SSAutoBrokers"},
-                ],
+    this.state = {
+      pageTitle: "Welcome to my portfolio",
+      isLoading: false,
+      data: []
+    };
 
-        };
-    }
+    this.handleFilter = this.handleFilter.bind(this);
+  }
 
-    handleFilter(filter){
-        this.handleFilter = this.handleFilter.bind(this);
+  handleFilter(filter) {
+    this.setState({
+      data: this.state.data.filter(item => {
+        return item.category === filter;
+      })
+    });
+  }
+
+  getPortfolioItems() {
+    axios
+      .get("https://jordan.devcamp.space/portfolio/portfolio_items")
+      .then(res => {
+        console.log("response data", res);
         this.setState({
-            data: this.state.data.filter(item=>{
-                return item.category
-            })
-        });
+            data: res.data.portfolio_items
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  portfolioItems() {
+    return this.state.data.map(item => {
+      return (
+        <PortfolioItem key ={item.id}item={item} />
+      );
+    });
+  }
+
+  componentDidMount() {
+      this.getPortfolioItems();
+  }
+  
+  render() {
+    if (this.state.isLoading) {
+      return <div>Loading...</div>;
     }
 
-    PortfolioItems(){
-        return this.state.data.map(item => {
-            return <PortfolioItem title={item.title} url={"google.com"} slug={item.slug}/>;
-        });
-    }
-    
-    handlePageTitleUpdate(){
-        this.setState({
-            pageTitle: "literally something else"
-        });
-    }
-    render(){
-        if(this.state.isLoading){
-            return <div>Loading...</div>
-        }
-        return(
-            <div>
-                <h2>{this.state.pageTitle}</h2>
-                <div>
-                <button onClick={() => this.handleFilter('I.T.')}>I.T.</button>
-                <button  onClick={() => this.handleFilter('Drywall')}>Drywall</button>
-                <button  onClick={() => this.handleFilter('Cars')}>Cars</button>
-                </div>
-                {this.PortfolioItems()}
-                <hr/>
-                <button onClick={this.handlePageTitleUpdate}> Change Title</button>
-            </div>
-        );
-    }
+    this.getPortfolioItems();
+
+    return (
+      <div>
+        <h2>{this.state.pageTitle}</h2>
+
+        <button onClick={() => this.handleFilter("eCommerce")}>
+          eCommerce
+        </button>
+        <button onClick={() => this.handleFilter("Scheduling")}>
+          Scheduling
+        </button>
+        <button onClick={() => this.handleFilter("Enterprise")}>
+          Enterprise
+        </button>
+
+        {this.portfolioItems()}
+      </div>
+    );
+  }
 }
