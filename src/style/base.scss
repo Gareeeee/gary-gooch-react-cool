@@ -3,3 +3,7 @@ body {
    font-family: 'Slabo 27px', serif;
 
 }
+.container{
+   display: grid;
+   grid-template-columns: 1fr;
+}
