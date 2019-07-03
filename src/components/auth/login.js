@@ -24,14 +24,30 @@ export default class Login extends Component{
         },
             { withCredentials: true}
         ).then(response =>{
-            console.log("response", response);
-        }).catch(error => {});
+            if(response.data.status === 'created') {
+                console.log("Login Successful!")
+                this.props.handleSuccessfulAuth
+            }  else{
+            this.setState({
+                errorText: "Wrong email or password"
+            });
+            this.props.handleUnSuccessfulAuth();
+        }
+    })
+        .catch(error => {
+            console.log("error", error);
+            this.setState({
+                errorText: "an error occurred"
+            })
+            this.props.handleUnSuccessfulAuth();
+        });
         
         event.preventDefault();
     }
     handleChange(event) {        
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
+            errorText: ""
         });
     }
 

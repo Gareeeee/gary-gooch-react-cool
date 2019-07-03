@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-export default class NavigationComponent extends Component{
-    constructor(){
-        super();
+const NavigationComponent = (props) =>{
+    const dynamicLink = (route, linkText) =>{
+        return(<div className="NavLink"> 
+        <NavLink  to="/blog" activeClassName="nav-link-active">Blog</NavLink>
+        </div>)
     }
-
-    render(){
+    
         return(
             <div className="NavWrapper">
              <div className="LeftSide">  
@@ -20,11 +21,11 @@ export default class NavigationComponent extends Component{
             <div className="NavLink"> 
             <NavLink  to="/contact" activeClassName="nav-link-active">Contact</NavLink>
             </div>
-            <div className="NavLink"> 
-            <NavLink  to="/blog" activeClassName="nav-link-active">Blog</NavLink>
-            </div>
+            {props.loggedInStatus === "LOGGED_IN" ?  dynamicLink("/blog", "Blog"): null}
+
 
             </div>
+
 
             <div className="RightSide">Gary Gooch</div>
 
@@ -34,4 +35,4 @@ export default class NavigationComponent extends Component{
             </div>
         )
     }
-}
+export default NavigationComponent
