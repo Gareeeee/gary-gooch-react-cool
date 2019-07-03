@@ -3,3 +3,12 @@
     grid-template-columns: 1fr 1fr;
     height: calc(100vh - 84px);
 }
+.LeftColumn{
+    background-size: cover;
+}
+.RightColumn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $offwhite;
+}
