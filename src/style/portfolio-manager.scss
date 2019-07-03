@@ -1,0 +1,10 @@
+.PortfolioManagerWrapper{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    .LeftColumn{
+        background-color: $offwhite;
+    }
+    .RightColumn{
+        background-color: $charcoal;
+    }
+}

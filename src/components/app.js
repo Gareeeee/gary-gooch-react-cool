@@ -12,6 +12,7 @@ import Contact from  "./pages/contact";
 import Blog from  "./pages/blog";
 import PortfolioDetail from "./portfolio/portfolio-detail";
 import Auth from "./pages/auth";
+import PortfolioManager from "./pages/portfolio-manager"
 
 import NoMatch from "./no-match";
 
@@ -24,16 +25,23 @@ export default class App extends Component {
     };
     this.handleUnSuccessfulLogin = this.handleUnSuccessfulLogin.bind(this)
     this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this)
+    this.handleSuccessfulLogout = this.handleSuccessfulLogout.bind(this)
   }
 
   handleSuccessfulLogin() {
-    this.state ({
+    this.setState ({
       loggedInStatus: "LOGGED_IN"
     });
   }
   
 handleUnSuccessfulLogin() {
-    this.state ({
+    this.setState ({
+      loggedInStatus: "NOT_LOGGED_IN"
+    });
+    
+  }  
+  handleSuccessfulLogout() {
+    this.setState ({
       loggedInStatus: "NOT_LOGGED_IN"
     });
     
@@ -64,7 +72,8 @@ handleUnSuccessfulLogin() {
 
 authorizedPages(){
   return[
-    <Route path="/blog" component={Blog} />
+    <Route path="/portfolio-manager" component={PortfolioManager}/>
+
   ];
 }
 
@@ -75,7 +84,10 @@ authorizedPages(){
 
       <Router>
         <div>
-        <NavigationContainer loggedInStatus={this.state.loggedInStatus}/>
+        <NavigationContainer 
+        loggedInStatus={this.state.loggedInStatus}
+        handleSuccessfulLogout={this.handleSuccessfulLogout}
+        />
         <h1>{this.state.loggedInStatus}</h1>
         
         <div>{moment().format("MMMM Do YYYY, h:mm:ss a")}</div>
@@ -96,8 +108,11 @@ authorizedPages(){
 
            <Route path="/Contact" component={Contact} />
 
+           <Route path="/blog" component={Blog} />
+
            {this.state.loggedInStatus==='LOGGED_IN' ? this.authorizedPages(): null}
            <Route  path="/portfolio/:slug" component={PortfolioDetail}/>
+
 
            <Route component={NoMatch}/>
 

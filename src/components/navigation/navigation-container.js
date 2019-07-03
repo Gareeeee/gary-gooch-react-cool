@@ -1,13 +1,31 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import axios from 'axios';
+import {withRouter} from 'react-router';
+
 
 const NavigationComponent = (props) =>{
     const dynamicLink = (route, linkText) =>{
         return(<div className="NavLink"> 
-        <NavLink  to="/blog" activeClassName="nav-link-active">Blog</NavLink>
+        <NavLink  to={route} activeClassName="nav-link-active">{linkText}</NavLink>
         </div>)
     }
+    const handleSignOut = () => {
+        axios
+          .delete("https://api.devcamp.space/logout", { withCredentials: true })
+          .then(response => {
+            if (response.status === 200) {
+              props.history.push("/");
+              props.handleSuccessfulLogout();
+            }
+            return response.data;
+          })
+          .catch(error => {
+            console.log("Error signing out", error);
+          });
+      };
     
+
         return(
             <div className="NavWrapper">
              <div className="LeftSide">  
@@ -21,13 +39,22 @@ const NavigationComponent = (props) =>{
             <div className="NavLink"> 
             <NavLink  to="/contact" activeClassName="nav-link-active">Contact</NavLink>
             </div>
-            {props.loggedInStatus === "LOGGED_IN" ?  dynamicLink("/blog", "Blog"): null}
+            <div className="NavLink"> 
+            <NavLink  to="/blog" activeClassName="nav-link-active">Blog</NavLink>
+            </div>
+            {props.loggedInStatus === "LOGGED_IN" ?  dynamicLink("/portfolio-manager", "Portfolio Manager"): null}
 
 
             </div>
 
 
-            <div className="RightSide">Gary Gooch</div>
+            <div className="RightSide">
+                Gary Gooch 
+
+
+
+            {props.loggedInStatus ==='LOGGED_IN'?<a onClick={handleSignOut}> Sign out</a> : null}
+            </div>
 
 
             
@@ -35,4 +62,4 @@ const NavigationComponent = (props) =>{
             </div>
         )
     }
-export default NavigationComponent
+export default withRouter(NavigationComponent);
