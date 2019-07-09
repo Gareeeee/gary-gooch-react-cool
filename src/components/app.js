@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import{ BrowserRouter as Router,Switch,Route} from 'react-router-dom'
 import axios from 'axios';
+import {library} from "@fortawesome/fontawesome-svg-core";
+import {FortAwesomeIcon} from '@fortawesome/react-fontawesome';
+import{ faTrash, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 import PortfolioContainer from './portfolio/portfolio-container.js';
@@ -13,8 +16,9 @@ import Blog from  "./pages/blog";
 import PortfolioDetail from "./portfolio/portfolio-detail";
 import Auth from "./pages/auth";
 import PortfolioManager from "./pages/portfolio-manager"
-
 import NoMatch from "./no-match";
+
+library.add(faTrash, faSignOutAlt);
 
 export default class App extends Component {
   constructor(props) {
@@ -90,9 +94,7 @@ authorizedPages(){
         loggedInStatus={this.state.loggedInStatus}
         handleSuccessfulLogout={this.handleSuccessfulLogout}
         />
-        <h1>{this.state.loggedInStatus}</h1>
         
-        <div>{moment().format("MMMM Do YYYY, h:mm:ss a")}</div>
         <Switch>
      
            <Route exact path='/'  component={Home} />

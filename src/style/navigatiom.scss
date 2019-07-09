@@ -5,8 +5,17 @@
   
     .LeftSide {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-  
+    .RightSide {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100px;
+    
+    }
+
     .NavLink {
       height: 22px;
       border-bottom: 1px solid transparent;
@@ -15,8 +24,7 @@
         text-transform: uppercase;
         font-size: 0.9rem;
 
-    
-
+        
       a {
         color: grey;
         text-decoration: none;
