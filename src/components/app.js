@@ -4,7 +4,7 @@ import{ BrowserRouter as Router,Switch,Route} from 'react-router-dom'
 import axios from 'axios';
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {FortAwesomeIcon} from '@fortawesome/react-fontawesome';
-import{ faTrash, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import{ faTrash, faSignOutAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 
 import PortfolioContainer from './portfolio/portfolio-container.js';
@@ -18,7 +18,7 @@ import Auth from "./pages/auth";
 import PortfolioManager from "./pages/portfolio-manager"
 import NoMatch from "./no-match";
 
-library.add(faTrash, faSignOutAlt);
+library.add(faTrash, faSignOutAlt, faEdit);
 
 export default class App extends Component {
   constructor(props) {

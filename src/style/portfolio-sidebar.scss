@@ -15,18 +15,21 @@
         font-size: 1.8em;
 
     }
-   
-    .delete{
-        font-size: 2em;
-        color: white;
-        transition: 0.2s ease-in-out;
-        cursor: pointer;
-        &:hover{
-            color: red;
-            
+        .actions{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        .action-icon{
+                font-size: 2em;
+                color: white;
+                transition: 0.2s ease-in-out;
+            cursor: pointer;
+                &:hover{
+                    color: red;
+                    
+                    }
+                }
+            }
         }
     }
-    
-    }
-}
 }

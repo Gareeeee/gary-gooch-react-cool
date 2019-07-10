@@ -8,15 +8,35 @@ export default class PortfolioManager extends Component{
     constructor(){
         super();
         this.state = {
-            portfolioItems:[]
+            portfolioItems:[],
+            portfolioToEdit: {}
         }
 
-        this.handleSuccessfulFormSubmission = this.handleSuccessfulFormSubmission.bind(this);
+        this.handleNewFormSubmission = this.handleNewFormSubmission.bind(this);
+        this.handleEditFormSubmission = this.handleEditFormSubmission.bind(this);
+
         this.handleFormSubmissionError = this.handleFormSubmissionError.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
-
-
+        this.handleEditClick = this.handleEditClick.bind(this);
+        this.clearPortfolioToEdit = this.clearPortfolioToEdit.bind(this);
+        
     }
+
+    clearPortfolioToEdit(){
+        this.setState({
+            portfolioToEdit: {}
+        })
+    }
+
+
+
+    handleEditClick(portfolioItem) {
+        this.setState({
+            portfolioToEdit: portfolioItem
+        }
+        )
+    }
+
 
     handleDeleteClick(portfolioItem) {
         axios.delete(`https://api.devcamp.space/portfolio/portfolio_items/${portfolioItem.id}`,
@@ -29,15 +49,22 @@ export default class PortfolioManager extends Component{
         }).catch(error => {console.log('response from delete',response)
     })
     }
+    handleEditFormSubmission(){
+        this.getPortfolioItems();
+    }
+    handleNewFormSubmission(portfolioItem) {
+        this.setState({
+            portfolioItems: [portfolioItem].concat(this.state.portfolioItems)
+            
 
-    handleSuccessfulFormSubmission(portfolioItem) {
+        })
         console.log('handleSuccessfulFormSubmission', portfolioItem);
     }
 
+    
+
     handleFormSubmissionError(error) {
-        this.setState({
-            portfolioItems: [portfolioItem].contcat(this.state.portfolioItems)
-        })
+        console.log('handleFormSubmissionError', error)
     }
 
 
@@ -62,15 +89,21 @@ export default class PortfolioManager extends Component{
             <div className="PortfolioManagerWrapper">               
              <div className='LeftColumn'>
                 <PortfolioForm 
-                handleSuccessfulFormSubmission={this.handleSuccessfulFormSubmission}
+                handleNewFormSubmission={this.handleNewFormSubmission}
+                handleEditFormSubmission={this.handleEditFormSubmission}
+
                 handleFormSubmissionError={this.handleFormSubmissionError}
-                
+                clearPortfolioToEdit={this.clearPortfolioToEdit}
+                portfolioToEdit={this.state.portfolioToEdit}
+                data={this.state.portfolioItems}
+                portfolioToEdit={this.state.portfolioToEdit}
                 />
              </div>
              <div className='RightColumn'> 
             <PortfolioSidebarList 
             handleDeleteClick={this.handleDeleteClick}
-            data={this.state.portfolioItems}/>
+            data={this.state.portfolioItems}
+            handleEditClick={this.handleEditClick}/>
                     <div className='ContentWrapper'></div>
 
                     </div>
