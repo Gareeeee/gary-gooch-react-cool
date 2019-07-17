@@ -8,11 +8,19 @@ export default class BlogForm extends Component {
 
         this.state = {
             title: '',
-            blog_status: ''
+            blog_status: '',
+            content: ''
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
+
+    }
+
+    handleRichTextEditorChange(content) {
+        this.setState({content});
+
 
     }
 
@@ -21,6 +29,7 @@ export default class BlogForm extends Component {
 
         formData.append('portfolio_blog[title]', this.state.title)
         formData.append('portfolio_blog[blog_status]', this.state.blog_status)
+        formData.append("portfolio_blog[content]", this.state.content);
 
         return formData;
     }
@@ -34,18 +43,16 @@ export default class BlogForm extends Component {
         axios.post("https://garygooch.devcamp.space/portfolio/portfolio_blogs", 
         this.buildForm(), 
         {withCredentials: true}
-        ).then(response =>{
-            this.props.handleSuccessfulFormSubmission(response.data.portfolio_blog);
-
-            this.setState({
-                title: '',
-                blog_status: ''
-            })
+        ).then(response =>{ this.setState({
+            title: '',
+            blog_status: '',
+            content: ''
+        })
+            this.props.handleSuccessfulFormSubmission(
+                response.data.portfolio_blog);           
         }).catch(error =>{
             console.log('handleSubmit for blog error', error)
         })
-        
-        
         this.props.handleSuccessfulFormSubmission(this.state);
         event.preventDefault();
     }
@@ -68,7 +75,7 @@ export default class BlogForm extends Component {
         placeholder='Blog Status'
         value={this.state.blog_status}/>
 
-        <RichTextEditor/>
+        <RichTextEditor handleRichTextEditorChange={this.handleRichTextEditorChange}/>
 
         <button className='btn'>Save</button>
         

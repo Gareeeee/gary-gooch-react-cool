@@ -26,7 +26,7 @@ class Blog extends Component{
 
     handleSuccessfulNewBlogSubmission(blog) {
         this.setState({
-            blogModalIsOpen: false,
+            blogModalIsOpen: true,
             blogItems: [blog].concat(this.state.blogItems)
         })
     }
@@ -66,9 +66,9 @@ class Blog extends Component{
             currentPage: this.state.currentPage + 1
         })
         axios.get(`https://garygooch.devcamp.space/portfolio/portfolio_blogs?page=${this.state.currentPage}`, 
-        {withCredentials: true
-        }).then(response => {
-            console.log('getting', response.data)
+        {withCredentials: true}
+        )
+        .then(response => {
             this.setState({
                 blogItems: this.state.blogItems.concat( response.data.portfolio_blogs),
                 totalCount: response.data.meta.total_records,

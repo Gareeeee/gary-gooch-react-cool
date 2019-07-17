@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ReactHtmlParser from 'react-html-parser';
 
     export default class BlogDetail extends Component{
         constructor(props){
@@ -41,7 +42,7 @@ import axios from 'axios';
                 <div className='content-container'>
                 <h1>{title}</h1>
                 <img className='featured-image-wrapper' src={featured_image_url}/>
-                <div className='content'>{content}</div>
+                <div className='content'>{ReactHtmlParser(content)}</div>
                 </div>                
             </div>
         )
