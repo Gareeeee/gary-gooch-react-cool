@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import RichTextEditor from '../../forms/rich-text-editor'
+import RichTextEditor from '../../forms/rich-text-editor';
+import DropzoneComponent from 'react-dropzone-component';
 
 export default class BlogForm extends Component {
     constructor(props) {
@@ -15,7 +16,30 @@ export default class BlogForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
+        this.componentConfig = this.componentConfig.bind(this);
+        this.djsConfig =this.djsConfig.bind(this);
+        this.handleFeaturedImageDrop + this.handleFeaturedImageDrop.bind(this);
 
+    }
+    djsConfig(){
+        return{
+            addRemoveLinks: true,
+            maxFiles: 1
+        }
+    }
+
+    componentConfig() {
+        return {
+            iconFiletypes: ['.jpg','.png'],
+            showFiletypeIcon: true,
+            postUrl: 'https://httpbin.org/post'
+        }
+    }
+
+    handleFeaturedImageDrop() {
+        return {
+            addedfile: file => this.setState({ featured})
+        }
     }
 
     handleRichTextEditorChange(content) {
