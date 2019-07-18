@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ReactHtmlParser from 'react-html-parser';
+import BlogForm from '../pages/blog/blog-form'
 
     export default class BlogDetail extends Component{
         constructor(props){
@@ -8,8 +9,24 @@ import ReactHtmlParser from 'react-html-parser';
 
             this.state = {
                 currentId: this.props.match.params.slug,
-                blogItem: {}
+                blogItem: {},
+                editMode: false
             }
+            this.handleEditClick = this.handleEditClick.bind(this)
+            this.handleFeaturedImageDelete = this.handleFeaturedImageDelete.bind(this);
+        }
+
+        handleFeaturedImageDelete(){
+            this.setState({
+            blogItem: {
+                featured_image_url: ''
+            }
+        })
+        }
+
+        handleEditClick() {
+            console.log('handle edit clicked!')
+            this.setState({editMode: true})
         }
 
         getBlogItem() {
@@ -37,13 +54,22 @@ import ReactHtmlParser from 'react-html-parser';
             blog_status
         } = this.state.blogItem;
 
-        return(
-            <div className='blog-container'>
+        const contentManager = () => {
+            if (this.state.editMode) {
+                return <BlogForm handleFeaturedImageDelete={this.handleFeaturedImageDelete} editMode={this.state.editMode} blog={this.state.blogItem}/>
+            } else {
+                return(
                 <div className='content-container'>
-                <h1>{title}</h1>
+                <h1 onClick={this.handleEditClick}>{title}</h1>
                 <img className='featured-image-wrapper' src={featured_image_url}/>
                 <div className='content'>{ReactHtmlParser(content)}</div>
-                </div>                
+                </div>
+                )}
+        }
+
+        return(
+            <div className='blog-container'>
+                {contentManager()}
             </div>
         )
     }

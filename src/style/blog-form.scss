@@ -10,6 +10,11 @@
 @include input-element();
 input{
     margin-bottom: 0px;
+    
+    .image-uploaders{
+        display:grid;
+        grid-template-columns: 1fr;
+    }
 }
 
 }
