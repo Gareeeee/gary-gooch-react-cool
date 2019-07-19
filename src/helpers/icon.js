@@ -7,16 +7,18 @@ import{
     faFan, 
     faKiwiBird,
     faPlus,
-    faBug } 
+    faBug,
+    faBaby } 
     from '@fortawesome/free-solid-svg-icons';
 const Icons = () => {
     library.add(
     faTrash, 
     faSignOutAlt, 
     faEdit, 
-    faFan, 
+    faFan,
+    faPlus, 
     faKiwiBird,
-    faPlus,
-    faBug);}
+    faBug,
+    faBaby);}
 
     export default Icons;

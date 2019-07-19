@@ -10,26 +10,25 @@ export default class BlogForm extends Component {
         this.state = {
             id: '',
             title: '',
-            blog_status: 'draft',
+            blog_status: '',
             content: '',
             featured_image: '',
             apiUrl: "https://garygooch.devcamp.space/portfolio/portfolio_blogs",
             apiAction: 'post',
         }
-
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
         this.componentConfig = this.componentConfig.bind(this);
         this.djsConfig =this.djsConfig.bind(this);
         this.handleFeaturedImageDrop + this.handleFeaturedImageDrop.bind(this);
-
         this.featuredImageRef = React.createRef();
         this.deleteImage = this.deleteImage.bind(this);
-
     }
     deleteImage(imageType){
-        axios.delete(`https://api.devcamp.space/portfolio/delete-portfolio-blog-image/${this.props.blog
+        axios
+        .delete(
+            `https://api.devcamp.space/portfolio/delete-portfolio-blog-image/${this.props.blog
         .id}?image_type=${imageType}`, 
         {withCredentials: true}
         ).then(response =>{
@@ -54,7 +53,11 @@ export default class BlogForm extends Component {
                 id: this.props.blog.id,
                 title: this.props.blog.title,
                 blog_status: this.props.blog.blog_status,
-                content: this.props.blog.content
+                content: this.props.blog.content,
+                apiUrl: `https://garygooch.devcamp.space/portfolio/portfolio_blogs/${this.props.blog.id}`,
+                apiAction: 'patch'
+
+
             })
         }
     }
@@ -100,12 +103,13 @@ export default class BlogForm extends Component {
         })
     }
     handleSubmit(event) {
-        axios
-        .post(
-        this.state.apiUrl,
-        this.buildForm(), 
-        {withCredentials: true}
-        ).then(response =>{
+        axios({
+            method: this.state.apiAction,
+            url: this.state.apiUrl,
+            data: this.buildForm(),
+            withCredentials: true
+          })
+        .then(response =>{
             if (this.state.featured_image){
                 this.featuredImageRef.current.dropzone.removeAllFiles();}
             this.setState({
@@ -113,18 +117,19 @@ export default class BlogForm extends Component {
                 blog_status: '',
                 content: ''
         })
-        if (this.state.featured_image){
-        this.featuredImageRef.current.dropzone.removeAllFiles();}
-
+        if (this.props.editMode) {
+            //update blog detail
+            this.props.handleUpdateFormSubmission(response.data.portfolio_blog)
+        } else {
             this.props.handleSuccessfulFormSubmission(
-                response.data.portfolio_blog);           
+                response.data.portfolio_blog); 
+            }      
         }).catch(error =>{
             console.log('handleSubmit for blog error', error)
         })
         this.props.handleSuccessfulFormSubmission(this.state);
-        event.preventDefault();
-    }
-
+        event.preventDefault(); }
+    
   render() {
     return (
       <form onSubmit={this.handleSubmit} className='blog-form-wrapper'>
